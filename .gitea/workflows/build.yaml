@@ -3,7 +3,7 @@ run-name: ${{ github.actor }} is testing out Gitea Actions 🚀
 on: [push]
 jobs:
   Explore-Gitea-Actions:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     container:
       image:192.168.1.68:20080/helixon/ubuntu:20.04
       credentials:
