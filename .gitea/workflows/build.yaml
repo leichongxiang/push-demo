@@ -4,6 +4,11 @@ on: [push]
 jobs:
   Explore-Gitea-Actions:
     runs-on: ubuntu-latest
+    container:
+      image:192.168.1.68:20080/helixon/ubuntu:20.04
+      credentials:
+        username: helixon
+        password: D9k2sVq70j
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by Gitea!"
