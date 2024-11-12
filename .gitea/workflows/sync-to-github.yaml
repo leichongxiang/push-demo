@@ -15,4 +15,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.TOKEN_OF_GITHUB }}
         run: |
           git remote add github https://${{GITHUB_TOKEN}}:x-oauth-basic@github.com/leichongxiang/push-demo.git
-          git push github main:main
+          git push github origin main
