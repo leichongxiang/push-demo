@@ -1,5 +1,4 @@
 name: Sync Main Branch to GitHub
-
 on:
   push:
     branches: [ main ]
@@ -10,9 +9,61 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Sync to GitHub
+        with:
+          fetch-depth: 0  # 获取完整的提交历史
+          fetch-tags: true # 获取所有标签
+      
+      - name: Configure Git with commit author preservation
+        run: |
+          # 设置 Git 配置以保留原始作者信息
+          git config --global user.name "Gitea Sync Bot"
+          git config --global user.email "bot@example.com"
+          
+          # 启用邮箱映射功能，确保正确匹配 GitHub 账号
+          git config --global mailmap.file .mailmap || true
+          
+          # 显示当前配置
+          echo "Git configuration:"
+          git config --list
+          
+          # 显示提交历史和作者信息
+          echo "Recent commits with author details:"
+          git log -5 --pretty=format:"%h - %s (%ae) [%an] <%ar>"
+          
+      - name: Setup and sync to GitHub
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN_OF_GITHUB }}
         run: |
-          git remote add github https://${{GITHUB_TOKEN}}:x-oauth-basic@github.com/leichongxiang/push-demo.git
-          git push github origin main
+          # 移除可能存在的旧远程配置
+          git remote remove github 2>/dev/null || true
+          
+          # 添加 GitHub 远程仓库
+          echo "Adding GitHub remote repository..."
+          git remote add github "https://${GITHUB_TOKEN}@github.com/leichongxiang/push-demo.git"
+          
+          # 获取所有分支和标签
+          echo "Fetching all refs..."
+          git fetch --all
+          git fetch --tags
+          
+          # 确保我们有最新的变更
+          git pull origin main --rebase
+          
+          # 推送到 GitHub，保持提交历史和作者信息
+          echo "Pushing to GitHub with author information..."
+          git push --force --tags github HEAD:main
+          
+          # 验证推送结果和作者信息
+          if [ $? -eq 0 ]; then
+            echo "Successfully synced to GitHub!"
+            echo "Verifying commit authors:"
+            git log -5 --pretty=format:"%h - %s (%ae) [%an]"
+          else
+            echo "Error: Failed to push to GitHub"
+            exit 1
+          fi
+          
+      - name: Verify author preservation
+        run: |
+          echo "Checking recent commits and their authors:"
+          git log -10 --pretty=format:"%h %ae %an %s"
