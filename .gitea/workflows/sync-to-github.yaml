@@ -15,10 +15,6 @@ jobs:
       
       - name: Configure Git with commit author preservation
         run: |
-          # 设置 Git 配置以保留原始作者信息
-          git config --global user.name "Gitea Sync Bot"
-          git config --global user.email "bot@example.com"
-          
           # 启用邮箱映射功能，确保正确匹配 GitHub 账号
           git config --global mailmap.file .mailmap || true
           
@@ -39,7 +35,7 @@ jobs:
           
           # 添加 GitHub 远程仓库
           echo "Adding GitHub remote repository..."
-          git remote add github "https://${GITHUB_TOKEN}@github.com/leichongxiang/push-demo.git"
+          git remote add github "https://${{GITHUB_TOKEN}}:x-oauth-basic@github.com/leichongxiang/push-demo.git"
           
           # 获取所有分支和标签
           echo "Fetching all refs..."

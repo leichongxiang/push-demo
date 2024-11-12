@@ -1,0 +1,14 @@
+# 在仓库根目录创建 .mailmap 文件
+# 格式：<GitHub邮箱> <Gitea邮箱>
+# 或：   <正确名字> <正确邮箱> <原始名字> <原始邮箱>
+
+# 示例配置：
+#John Doe <john.doe@github.com> <john.doe@gitea.local>
+#Jane Smith <jane.smith@github.com> <jane.smith@internal.gitea>
+#Alice Johnson <alice@github.com> <alice@company.gitea>
+
+# 如果同一个人使用了不同的名字，可以这样映射：
+#John Doe <john.doe@github.com> Johnny <john.doe@gitea.local>
+#John Doe <john.doe@github.com> John D <john.other@gitea.local>
+
+leicx <316666062@163.com> <leichongxiang@helixon.com>
