@@ -35,7 +35,7 @@ jobs:
           
           # 添加 GitHub 远程仓库
           echo "Adding GitHub remote repository..."
-          git remote add github "https://${{GITHUB_TOKEN}}:x-oauth-basic@github.com/leichongxiang/push-demo.git"
+          git remote add github "https://oauth2:${GITHUB_TOKEN}@github.com/leichongxiang/push-demo.git"
           
           # 获取所有分支和标签
           echo "Fetching all refs..."
